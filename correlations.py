@@ -4,14 +4,25 @@ import PIL
 from PIL import Image
 from scipy.stats import pearsonr
 import pandas as pd
+import numpy as np
 
-VG = pd.read_csv('veg.csv')
-TMP = pd.read_csv('temp.csv')
+VG = pd.read_csv('veg.csv').values.tolist()
+TMP = pd.read_csv('temp.csv').values.tolist()
 
-#print(VG)
-vg = VG.values.tolist()[0].remove(99999.0)
+vg = []
+for x in VG:
+	for i in x:
+		vg.append(i)
 
+tmp = []
+for x in TMP:
+	for i in x:
+		tmp.append(i)
 
-#print(len(VG), len(TMP))
-#corr = pearsonr(vg, tmp)
-#print(corr)
+if len(vg) > len(tmp):
+	vg = vg[0:len(tmp)]
+else:
+	tmp = tmp[0:len(vg)]
+
+corr = pearsonr(vg, tmp)
+print(corr)
